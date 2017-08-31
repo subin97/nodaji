@@ -1,0 +1,8 @@
+<form action = '/posts/update/<%= @post.id %>' method = 'post'>
+    <input type="hidden" name="_method" value="patch" />
+    <h3>제목을 수정해 주세요</h3>
+    <input type = 'text' name = 'input_title' value = '<%= @post.title %>'>
+    <h3>내용을 수정해 주세요</h3>
+    <input type = 'text' name = 'input_content' value = '<%= @post.content %>'>
+    <input type = 'submit' value = '제출!'>
+</form>
