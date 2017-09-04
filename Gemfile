@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+# 시간 카운트
 gem 'angularjs-rails'
 gem 'jquery-countdown-rails'
 

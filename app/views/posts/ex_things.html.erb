@@ -1,0 +1,5 @@
+<% @posts.each do |post| %>
+    <% if post.expire == true %>
+        <h3><%= post.id %> : <%= post.title %>
+    <% end %>
+<% end %>

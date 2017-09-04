@@ -25,6 +25,8 @@ Rails.application.routes.draw do
   get '/mine' => 'posts#mine'
   get '/tag' => 'posts#tag'
   
+  post '/posts/expired' => 'posts#expired'
+  get '/posts/ex_things'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

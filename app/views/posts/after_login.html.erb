@@ -65,19 +65,44 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
   
   <div class="w3-row-padding" style="padding-left:5%; padding-right:5%">
     <% @posts.reverse_each do |p| %>
-    <a href="/posts/show/<%= p.id %>">
-    <div class="w3-third w3-container w3-margin-bottom">
-      <img src="<%= p.image1 %>" alt="Norway" style="width:100%; height:257px" class="w3-hover-opacity">
-      <div class="w3-container w3-white">
-        <b><p style="margin-top:10px"><i class="fa fa-user"></i> <%= User.find(p.user_id).email.split('@')[0] %> : <%= p.title %></p></b>
-        <p><%= p.content %></p>
-        <p><i class="fa fa-clock-o"></i> 남은시간 :</p><p id="clock" style="background:none; border:none"></p>
-        <p><i class="fa fa-money"></i> <%= p.start_price %>(+<%= p.up_price %>)</p>
-        <p><i class="fa fa-thumbs-o-up"></i> X7</p>
-        <p><%= p.tags %></p>
-      </div>
-    </div>
-    </a>
+      <% if p.expire.nil? %>
+        <a href="/posts/show/<%= p.id %>">
+        <div class="w3-third w3-container w3-margin-bottom">
+          <% if p.image1.present? %>
+            <img src="<%= p.image1 %>" alt="Norway" style="width:100%; height:257px" class="w3-hover-opacity">
+          <% else %>
+            <img src="/uploads/no_detail_img.gif" style="width:100%; height:257px" class="w3-hover-opacity">
+          <% end %>
+          <div class="w3-container w3-white">
+            <b><p style="margin-top:10px"><i class="fa fa-user"></i> <%= User.find(p.user_id).email.split('@')[0] %> : <%= p.title %></p></b>
+            <p><%= p.content %></p>
+            <p><i class="fa fa-clock-o"></i> 남은시간 :</p><p id="clock<%= p.id %>" style="background:none; border:none"></p>
+            <p><i class="fa fa-money"></i> <%= p.start_price %>(+<%= p.up_price %>)</p>
+            <p><i class="fa fa-thumbs-o-up"></i> X7</p>
+            <p><%= p.tags %></p>
+          </div>
+        </div>
+        </a>
+      <% end %>
+    <script>
+     // 시간만료시 없어지는 옵션
+        function liftOff() { 
+               $.ajax({
+              type: 'POST',
+              url: '/posts/expired',
+              data: { expire: true,
+                      id: <%= p.id %>
+              }
+            })
+        }
+        $('#clock<%= p.id %>').countdown({until: <%= p.created_at.to_i %> + (<%= p.start_time %> * 3600) - <%= Time.now.to_i %> ,
+          expiryText: '<div class="over">마감되었습니다.</div>', onExpiry: liftOff
+        });
+       
+         
+      
+    </script>
+  
     <% end %>
   </div>
 
@@ -108,16 +133,15 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 function w3_open() {
     document.getElementById("mySidebar").style.display = "block";
     document.getElementById("myOverlay").style.display = "block";
-}
+};
  
 function w3_close() {
     document.getElementById("mySidebar").style.display = "none";
     document.getElementById("myOverlay").style.display = "none";
-}
+};
 
-<% @posts.each do |p| %>
-    $('#clock').countdown({until: <%= @timenow.to_i - p.created_at.to_i %>});
-<% end %>
+
+
 </script>
 
 </body>
