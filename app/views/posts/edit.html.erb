@@ -1,8 +1,29 @@
-<form action = '/posts/update/<%= @post.id %>' method = 'post'>
-    <input type="hidden" name="_method" value="patch" />
-    <h3>제목을 수정해 주세요</h3>
-    <input type = 'text' name = 'input_title' value = '<%= @post.title %>'>
-    <h3>내용을 수정해 주세요</h3>
-    <input type = 'text' name = 'input_content' value = '<%= @post.content %>'>
-    <input type = 'submit' value = '제출!'>
+<div style="margin:5% 25%; border:1px solid gray; border-radius:10px; padding:2% 0 2% 5%">
+    <h1 style="margin-bottom:5%"><제품 수정페이지입니다></h1>
+<form action = '/posts/update/<%= @post.id %>' method = 'post' enctype="multipart/form-data">
+    <h3>제목 : <input type = 'text' name = 'input_title' value="<%= @post.title %>"></h3>
+    <br>
+    <h3>내용 : <input type = 'text' name = 'input_content' value="<%= @post.content %>"></h3>
+    <br>
+    <h3>경매시간 </h3>
+        <input type="radio" name="start_time" value= "3" checked> 3시간<br>
+        <input type="radio" name="start_time" value="24"> 하루<br>
+        <input type="radio" name="start_time" value="148"> 일주일<br>
+    <hr>
+    <br>
+    <h3>시작가 : <input type = 'integer' name = 'st_price' value="<%= @post.start_price %>"></h3>
+    <br>
+    <h3>낙찰가 : <input type = 'integer' name = 'input_bn_price' value="<%= @post.bn_price %>"></h3>
+    <br>
+    <h3>상승가 : <input type = 'integer' name = 'input_up_price' value="<%= @post.up_price %>"></h3>
+    <br>
+    <h3>대표 이미지 파일 : <input type="file" id="pimage" name="image1" value="<%= @post.image1 %>"></h3>
+    <br>
+    <h3>(필수X)추가 이미지 파일 : <input type="file" id="pimage" name="image2" value="<%= @post.image2 %>"></h3>
+    <br>
+    <h3>(필수X)추가 이미지 파일 : <input type="file" id="pimage" name="image3" value="<%= @post.image3 %>"></h3>
+    <br>
+    <h3>태그 : <input type = 'text' name = 'input_tag' value="<%= @post.tags %>"></h3>
+    <button type="submit" style="margin:5% 0">등록</button>
 </form>
+</div>

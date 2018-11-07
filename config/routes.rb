@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_for :users
   
   root 'posts#index'
-  
+  get '/like/:id' => 'posts#like'
   #CRUD중 C관련
   get 'posts/new'
 
@@ -16,9 +16,11 @@ Rails.application.routes.draw do
   #CRUD중 U관련
   get 'posts/edit/:id' => 'posts#edit'
 
+  post 'posts/update/:id' => 'posts#update'
   patch 'posts/update/:id' => 'posts#update'
 
   #CRUD중 D관련
+  get 'posts/destroy/:id' => 'posts#destroy'
   delete 'posts/destroy/:id' => 'posts#destroy'
   
   get '/after_login' => 'posts#after_login'
@@ -28,6 +30,15 @@ Rails.application.routes.draw do
   post '/posts/expired' => 'posts#expired'
   get '/posts/ex_things'
   
+    #메일건 관련
+  get '/newmail' => 'posts#newmail'
+  
+  post '/sending' => 'posts#sending'
+  
+  
+  resources :follows, only: [:create, :destroy]
+  
+  get 'posts/follow' => 'posts#follow'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

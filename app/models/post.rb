@@ -4,4 +4,5 @@ class Post < ActiveRecord::Base
     mount_uploader :image3, ImageUploader
     
     belongs_to :user
+    has_many :histories
 end

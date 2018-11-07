@@ -23,7 +23,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
   <div class="w3-bar-block">
     <a href="/after_login" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-black"><i class="fa fa-users w3-margin-right"></i>All</button>
     <a href="/mine" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>Mine</a> 
-    <a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>CONTACT</a>
+    <a href="/newmail" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>CONTACT</a>
   </div>
   <div class="w3-panel w3-large">
     <i class="fa fa-facebook-official w3-hover-opacity"></i>
@@ -33,6 +33,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
     <i class="fa fa-twitter w3-hover-opacity"></i>
     <i class="fa fa-linkedin w3-hover-opacity"></i>
   </div>
+  
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -76,9 +77,13 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
           <div class="w3-container w3-white">
             <b><p style="margin-top:10px"><i class="fa fa-user"></i> <%= User.find(p.user_id).email.split('@')[0] %> : <%= p.title %></p></b>
             <p><%= p.content %></p>
-            <p><i class="fa fa-clock-o"></i> 남은시간 :</p><p id="clock<%= p.id %>" style="background:none; border:none"></p>
+            <% if p.created_at.to_i + (p.start_time * 3600) - @timenow.to_i < 0 %>
+                 <div class='over'>마감되었습니다.</div>
+            <% else %>
+                  <p><i class="fa fa-clock-o"></i> 남은시간 :</p><p id="clock<%= p.id %>" style="background:none; border:none"></p>
+            <% end %>
             <p><i class="fa fa-money"></i> <%= p.start_price %>(+<%= p.up_price %>)</p>
-            <p><i class="fa fa-thumbs-o-up"></i> X7</p>
+            <p><i class="fa fa-eye"></i> <%= p.view %> <i class="fa fa-thumbs-o-up"></i> <%= p.like %> </p>
             <p><%= p.tags %></p>
           </div>
         </div>
@@ -139,7 +144,6 @@ function w3_close() {
     document.getElementById("mySidebar").style.display = "none";
     document.getElementById("myOverlay").style.display = "none";
 };
-
 
 
 </script>

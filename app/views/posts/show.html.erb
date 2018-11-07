@@ -18,6 +18,7 @@
     <![endif]-->
       <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <style>
         .is-countdown {
           border: none;
@@ -28,6 +29,16 @@
           text-align: center;
           vertical-align: middle;
           font-size: 25px;
+        }
+        #like{
+          background-color:white;
+          border:1px solid black;
+          border-radius:10px;
+          padding:5px
+        }
+        #like:hover {
+          background-color:black;
+          color:white;
         }
       </style>
      
@@ -46,7 +57,7 @@
   <div class="w3-bar-block">
     <a href="/after_login" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-black"><i class="fa fa-users w3-margin-right"></i>All</button>
     <a href="/mine" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>Mine</a> 
-    <a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>CONTACT</a>
+    <a href="/newmail" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>CONTACT</a>
   </div>
   <div class="w3-panel w3-large">
     <i class="fa fa-facebook-official w3-hover-opacity"></i>
@@ -185,15 +196,19 @@
                     </table>
                 </div>
                  <div class="well">
-                     <div ng-app="counter" ng-controller="Controller" class="counter">
+                      <div ng-app="counter" ng-controller="Controller" class="counter">
                         <pre>현재가: {{count}}                                  시작가: <%= @post.start_price %></pre>
                         
                        
-                        <button ng-click="up()">+{{<%= @post.up_price %>}}</button>
+                        <button ng-click="up()" id = "add">+{{<%= @post.up_price %>}}</button>
                         <br /><br />
                       
-                      
                       </div>
+                </div>
+                <div>
+                  <form action="/like/<%= @post.id %>">
+                  <p><button id="like"><i class="fa fa-thumbs-o-up"></i>좋아요 : <%= @post.like %> </button></p>
+                  </form>
                 </div>
 
                 <hr>
@@ -211,8 +226,12 @@
                     </form>
                 </div>
 
+                <div>
+                  <% if @post.user_id == current_user.id %>
+                  <a href="/posts/edit/<%= @post.id %>"><button class="btn btn-primary">수정하기</button></a>     <a href="/posts/destroy/<%= @post.id %>"><button class="btn btn-primary">삭제하기</button></a>
+                  <% end %>
+                </div>
                 <hr>
-
                
             </div>
 
@@ -238,7 +257,7 @@
         $scope.num = <%= @post.up_price %>;
         $scope.count = <%= @post.start_price %>;
         $scope.up = function(){
-          if (confirm("입찰하시겠습니까?")) {
+          if (confirm("정말 입찰하시겠습니까?")) {
           $scope.count += $scope.num;
           } else {
           // Do nothing!
@@ -249,9 +268,18 @@
             $scope.num = val;
           }
         });
-      }); 
       
-    // $('#clock').countdown({until: <%#= @time %>});
+      
+        // $('#add').click(function() {
+        //     $.ajax({
+        //       type: "POST",
+        //       url: "/posts/history",
+        //       data: {user_id: <%#= current_user.id %>,
+        //             post_id: <%#= @post.id %>,
+        //             push_time: <%#= Time.now %>
+        //             }
+        //           })
+        // });
     
     $('#clock').countdown({until: <%= @time %>, 
     expiryText: '<div class="over">마감되었습니다.</div>'}); 

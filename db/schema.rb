@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170828113321) do
+ActiveRecord::Schema.define(version: 20170905093753) do
+
+  create_table "follows", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "histories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "posts", force: :cascade do |t|
     t.integer  "user_id"
@@ -26,6 +36,8 @@ ActiveRecord::Schema.define(version: 20170828113321) do
     t.string   "image2"
     t.string   "image3"
     t.boolean  "expire"
+    t.integer  "like"
+    t.integer  "view"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end

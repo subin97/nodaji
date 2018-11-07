@@ -13,6 +13,8 @@ class CreatePosts < ActiveRecord::Migration
       t.string :image2
       t.string :image3
       t.boolean :expire
+      t.integer :like
+      t.integer :view
     
 
 

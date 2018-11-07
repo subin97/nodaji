@@ -9,6 +9,8 @@ gem 'fog-aws'
 gem 'mini_magick'
 gem 'carrierwave'
 
+#메일건 관련
+gem 'mailgun-ruby', '~>1.1.6'
 #로그인 관련
 gem 'devise'
 #db관련
